@@ -1,5 +1,5 @@
 import { getProjects } from "@/lib/db";
-import { createProjectAction, updateProjectAction, deleteProjectAction, logout } from "../actions";
+import { createProjectAction, updateProjectAction, deleteProjectAction, moveProjectAction, logout } from "../actions";
 import styles from "../../page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -27,9 +27,23 @@ export default async function DashboardPage() {
 
       <h2>Existing projects</h2>
       {projects.length === 0 && <p>No projects yet.</p>}
-      {projects.map((project) => (
+      {projects.map((project, index) => (
         <details key={project.id} style={{ border: "1px solid #444", borderRadius: 8, padding: 12, marginBottom: 12 }}>
-          <summary>{project.title}</summary>
+          <summary style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span>{project.title}</span>
+            <span style={{ display: "flex", gap: 4 }}>
+              <form action={moveProjectAction}>
+                <input type="hidden" name="id" value={project.id} />
+                <input type="hidden" name="direction" value="up" />
+                <button type="submit" disabled={index === 0} style={{ padding: "4px 8px" }}>▲</button>
+              </form>
+              <form action={moveProjectAction}>
+                <input type="hidden" name="id" value={project.id} />
+                <input type="hidden" name="direction" value="down" />
+                <button type="submit" disabled={index === projects.length - 1} style={{ padding: "4px 8px" }}>▼</button>
+              </form>
+            </span>
+          </summary>
           <form action={updateProjectAction} style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
             <input type="hidden" name="id" value={project.id} />
             <input name="title" defaultValue={project.title} required style={{ padding: 8 }} />

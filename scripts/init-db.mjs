@@ -13,5 +13,15 @@ await pool.query(`
   )
 `);
 
+await pool.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS position INTEGER`);
+await pool.query(`
+  UPDATE projects SET position = sub.rn
+  FROM (
+    SELECT id, ROW_NUMBER() OVER (ORDER BY position NULLS LAST, created_at DESC) AS rn
+    FROM projects
+  ) sub
+  WHERE projects.id = sub.id AND projects.position IS NULL
+`);
+
 console.log("projects table ready");
 await pool.end();

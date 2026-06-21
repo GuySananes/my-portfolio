@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSessionToken, SESSION_COOKIE } from "@/lib/auth";
-import { addProject, updateProject, deleteProject } from "@/lib/db";
+import { addProject, updateProject, deleteProject, moveProject } from "@/lib/db";
 
 export async function login(formData) {
   const password = formData.get("password");
@@ -62,4 +62,12 @@ export async function deleteProjectAction(formData) {
   revalidatePath("/admin/dashboard");
   revalidatePath("/");
   redirect("/admin/dashboard");
+}
+
+export async function moveProjectAction(formData) {
+  const id = formData.get("id");
+  const direction = formData.get("direction");
+  await moveProject(id, direction);
+  revalidatePath("/admin/dashboard");
+  revalidatePath("/");
 }
