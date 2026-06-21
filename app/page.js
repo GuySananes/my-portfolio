@@ -8,15 +8,31 @@ export default async function Home() {
 
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>My Projects</h1>
+      <header className={styles.header}>
+        <span className={styles.brand}>Guy Sananes</span>
+        <nav className={styles.nav}>
+          <a href="#projects">Projects</a>
+        </nav>
+      </header>
+
+      <section className={styles.hero}>
+        <p className={styles.heroEyebrow}>Hi, I&apos;m</p>
+        <h1 className={styles.heroName}>Guy Sananes</h1>
+        <p className={styles.heroTagline}>I build things for the web.</p>
+        <a href="#projects" className={styles.heroCta}>
+          See my work ↓
+        </a>
+      </section>
+
+      <main className={styles.main} id="projects">
+        <h2 className={styles.sectionTitle}>Projects</h2>
 
         {projects.length === 0 && <p className={styles.empty}>No projects yet.</p>}
 
         <div className={styles.grid}>
           {projects.map((project) => (
-            <div key={project.id} className={styles.card}>
-              <h2>{project.title}</h2>
+            <article key={project.id} className={styles.card}>
+              <h3>{project.title}</h3>
               <p>{project.description}</p>
               <div className={styles.links}>
                 {project.github_url && (
@@ -30,10 +46,14 @@ export default async function Home() {
                   </a>
                 )}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </main>
+
+      <footer className={styles.footer}>
+        <p>© {new Date().getFullYear()} Guy Sananes</p>
+      </footer>
     </div>
   );
 }
