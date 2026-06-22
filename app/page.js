@@ -18,7 +18,7 @@ export default async function Home() {
       <section className={styles.hero}>
         <p className={styles.heroEyebrow}>Hi, I&apos;m</p>
         <h1 className={styles.heroName}>Guy Sananes</h1>
-        <p className={styles.heroTagline}>I build things for the web.</p>
+        <p className={styles.heroTagline}>Take a Look at My Projects</p>
         <a href="#projects" className={styles.heroCta}>
           See my work ↓
         </a>
